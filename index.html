@@ -567,112 +567,89 @@
         });
     </script>
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-    // ================== 动态加载数据库 ================== 
-    let systemToSubjects, systemSubjectToPapers, paperInfoMap;
-    const isLocal = window.location.protocol === 'file:';
-    const basePath = isLocal ? '.' : '/first-lesson-report'; // GitHub Pages仓库名
+    document.addEventListener("DOMContentLoaded", async () => {
+        // ================== 动态加载数据库 ==================
+        let systemToSubjects, systemSubjectToPapers, paperInfoMap;
+        try {
+            const response = await fetch('./database.json');
+            const data = await response.json();
+            ({ systemToSubjects, systemSubjectToPapers, paperInfoMap } = data);
+        } catch (error) {
+            alert("数据库加载失败，请检查文件路径或格式");
+            return;
+        }
     
-    try {
-        // ▼▼▼ 修改后的数据加载代码 ▼▼▼
-        const response = await fetch(`${basePath}/database.json`);
-        if (!response.ok) throw new Error(`HTTP错误! 状态码: ${response.status}`);
-        
-        const data = await response.json();
-        ({ systemToSubjects, systemSubjectToPapers, paperInfoMap } = data);
-        // ▲▲▲ 修改结束 ▲▲▲
-    } catch (error) {
-        console.error('数据加载失败:', error);
-        alert(`加载失败: ${error.message}\n请检查：1.文件路径 2.JSON格式`);
-        return;
-    }
-
-    // ================== 获取DOM元素 ==================
-    const systemSelect = document.querySelector('select:nth-of-type(1)'); // 体系选择框
-    const subjectSelect = document.querySelector('select:nth-of-type(2)'); // 学科选择框
-    const paperSelect = document.querySelector('select:nth-of-type(3)'); // 试卷选择框
-    const durationInput = document.querySelector('input[placeholder="分钟"]'); // 考试时长
-    const fullScoreInput = document.querySelector('.exam-block input[type="number"]'); // 总分
-    const gradeInputs = document.querySelectorAll('.item3 input'); // 分数线输入框
-
-    // ================== 初始化体系选项 ==================
-    populateSelect(systemSelect, Object.keys(systemToSubjects));
-
-    // ================== 体系选择事件 ==================
-    systemSelect.addEventListener('change', () => {
-        const selectedSystem = systemSelect.value;
-        // 清空下级选项
-        clearSelect(subjectSelect);
-        clearSelect(paperSelect);
-        clearInputs();
-        // 动态加载学科
-        if (selectedSystem) {
-            populateSelect(subjectSelect, systemToSubjects[selectedSystem]);
+        // ================== 获取DOM元素 ==================
+        const systemSelect = document.querySelector('select:nth-of-type(1)');
+        const subjectSelect = document.querySelector('select:nth-of-type(2)');
+        const paperSelect = document.querySelector('select:nth-of-type(3)');
+        const durationInput = document.querySelector('input[placeholder="分钟"]');
+        const fullScoreInput = document.querySelector('.exam-block input[type="number"]');
+        const gradeInputs = document.querySelectorAll('.item3 input');
+    
+        // ================== 初始化体系选项 ==================
+        populateOptions(systemSelect, Object.keys(systemToSubjects));
+    
+        // ================== 体系选择事件 ==================
+        systemSelect.addEventListener('change', () => {
+            const system = systemSelect.value;
+            subjectSelect.innerHTML = '<option value="">请选择</option>';
+            paperSelect.innerHTML = '<option value="">请选择</option>';
+            clearInputs();
+            
+            if (system) {
+                populateOptions(subjectSelect, systemToSubjects[system]);
+            }
+        });
+    
+        // ================== 学科选择事件 ==================
+        subjectSelect.addEventListener('change', () => {
+            const system = systemSelect.value;
+            const subject = subjectSelect.value;
+            paperSelect.innerHTML = '<option value="">请选择</option>';
+            clearInputs();
+            
+            if (system && subject) {
+                const key = `${system}__${subject}`;
+                populateOptions(paperSelect, systemSubjectToPapers[key] || []);
+            }
+        });
+    
+        // ================== 试卷选择事件 ==================
+        paperSelect.addEventListener('change', () => {
+            const system = systemSelect.value;
+            const subject = subjectSelect.value;
+            const paper = paperSelect.value;
+            const key = `${system}__${subject}__${paper}`;
+            const paperInfo = paperInfoMap[key] || {};
+    
+            // 填充基础信息
+            durationInput.value = paperInfo.duration || '';
+            fullScoreInput.value = paperInfo.full_score || '';
+    
+            // 填充分数线
+            if (paperInfo.grades && paperInfo.gradeLabels) {
+                paperInfo.gradeLabels.forEach((label, index) => {
+                    const grade = paperInfo.grades[index] ?? '-';
+                    gradeInputs[index].value = `[${label}] ${grade}`;
+                });
+            }
+        });
+    
+        // ================== 工具函数 ==================
+        function populateOptions(selectElement, options) {
+            selectElement.innerHTML = options.map(opt => 
+                `<option value="${opt}">${opt}</option>`
+            ).join('');
         }
-        subjectSelect.disabled = !selectedSystem;
-        paperSelect.disabled = true;
-    });
-
-    // ================== 学科选择事件 ==================
-    subjectSelect.addEventListener('change', () => {
-        const system = systemSelect.value;
-        const subject = subjectSelect.value;
-        // 清空下级选项
-        clearSelect(paperSelect);
-        clearInputs();
-        // 动态加载试卷
-        if (system && subject) {
-            const key = `${system}__${subject}`;
-            populateSelect(paperSelect, systemSubjectToPapers[key] || []);
-        }
-        paperSelect.disabled = !subject;
-    });
-
-    // ================== 试卷选择事件 ==================
-    paperSelect.addEventListener('change', () => {
-        const system = systemSelect.value;
-        const subject = subjectSelect.value;
-        const paper = paperSelect.value;
-        const key = `${system}__${subject}__${paper}`;
-        // 获取试卷信息
-        const paperInfo = paperInfoMap[key] || {};
-
-        // 填充考试信息
-        durationInput.value = paperInfo.duration || '';
-        fullScoreInput.value = paperInfo.full_score || '';
-
-        // 填充分数线（带标签）
-        if (paperInfo.grades && paperInfo.gradeLabels) {
-            paperInfo.grades.forEach((grade, index) => {
-                const label = paperInfo.gradeLabels[index];
-                gradeInputs[index].value = grade !== '-' ? `[${label}] ${grade}` : '-';
-            });
+    
+        function clearInputs() {
+            durationInput.value = '';
+            fullScoreInput.value = '';
+            gradeInputs.forEach(input => input.value = '');
         }
     });
-
-    // ================== 工具函数 ==================
-    function populateSelect(selectElement, options) {
-        selectElement.innerHTML = '<option value="">请选择</option>' + 
-            options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
-        selectElement.disabled = false;
-    }
-
-    function clearSelect(selectElement) {
-        selectElement.innerHTML = '<option value="">请选择</option>';
-        selectElement.disabled = true;
-    }
-
-    function clearInputs() {
-        durationInput.value = '';
-        fullScoreInput.value = '';
-        gradeInputs.forEach(input => input.value = '');
-    }
-
-    // ================== 保留原有功能 ================== 
-    // 此处保留星级评分和PDF导出代码（无需修改）
-    // ...原有代码...
-});
-</script>
+    </script>
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
