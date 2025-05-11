@@ -588,7 +588,10 @@
         const gradeInputs = document.querySelectorAll('.item3 input');
     
         // ================== 初始化体系选项 ==================
-        populateOptions(systemSelect, Object.keys(systemToSubjects));
+        systemSelect.innerHTML = '<option value="">请选择</option>' + 
+            Object.keys(systemToSubjects).map(sys => 
+                `<option value="${sys}">${sys}</option>`
+            ).join('');
     
         // ================== 体系选择事件 ==================
         systemSelect.addEventListener('change', () => {
@@ -598,7 +601,13 @@
             clearInputs();
             
             if (system) {
-                populateOptions(subjectSelect, systemToSubjects[system]);
+                const subjects = systemToSubjects[system] || [];
+                if (subjects.length > 0) {
+                    subjectSelect.innerHTML = '<option value="">请选择</option>' +
+                        subjects.map(sub => `<option value="${sub}">${sub}</option>`).join('');
+                } else {
+                    subjectSelect.innerHTML = '<option value="">暂无学科数据</option>';
+                }
             }
         });
     
@@ -611,7 +620,13 @@
             
             if (system && subject) {
                 const key = `${system}__${subject}`;
-                populateOptions(paperSelect, systemSubjectToPapers[key] || []);
+                const papers = systemSubjectToPapers[key] || [];
+                if (papers.length > 0) {
+                    paperSelect.innerHTML = '<option value="">请选择</option>' +
+                        papers.map(p => `<option value="${p}">${p}</option>`).join('');
+                } else {
+                    paperSelect.innerHTML = '<option value="">暂无试卷数据</option>';
+                }
             }
         });
     
@@ -637,12 +652,6 @@
         });
     
         // ================== 工具函数 ==================
-        function populateOptions(selectElement, options) {
-            selectElement.innerHTML = options.map(opt => 
-                `<option value="${opt}">${opt}</option>`
-            ).join('');
-        }
-    
         function clearInputs() {
             durationInput.value = '';
             fullScoreInput.value = '';
