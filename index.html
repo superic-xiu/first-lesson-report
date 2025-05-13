@@ -760,20 +760,26 @@
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
 function exportToPDF() {
+    const exportBtn = document.querySelector('button');
+    exportBtn.style.display = 'none';  // 隐藏按钮
     const nameInput = document.querySelectorAll('.base-block input')[0];
     const studentName = nameInput.value || "未命名";
-    const element = document.body;
+    const element = document.body; // 导出整个body，保留左右CSS padding
     const opt = {
-        margin: 0,
+        margin: [0, 0, 0, 0],  // 上右下左：顶0mm，左右15mm
         filename: `${studentName}-首次课学情诊断单.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 4 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-    html2pdf().set(opt).from(element).save();
+    html2pdf().set(opt).from(element).save().then(() => {
+        exportBtn.style.display = 'block';
+    });
 }
 </script>
+
 </body>
 </html>
