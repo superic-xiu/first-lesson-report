@@ -12,7 +12,7 @@
 
         @font-face {
             font-family: 'MyCustomFont';
-            src: url('./report_font.TTF') format('truetype');
+            src: url('./title.ttc') format('truetype');
             font-weight: normal;
             font-style: normal;
             color:#333
@@ -25,8 +25,104 @@
             font-family: 'MyCustomFont', sans-serif;
             color: #333;
             background: white;
-            padding: 5mm 15mm;
+            padding: 5mm 0mm;
             box-sizing: border-box;
+        }
+        .header {
+            position: relative;
+            width: 100%;
+            background: #d7e9f8;
+            overflow: hidden;
+            height: 120px;
+        }
+        .footer-header {
+            position: relative;
+            width: 100%;
+            background: #d7e9f8;
+            overflow: hidden;
+            height: 60px;
+        }
+        .header .left-shape, .footer-header .left-shape {
+            position: absolute;
+            left: 0;
+            top: 20%;
+            width: 75%;
+            height: 60%;
+            background: #1a2942;
+            clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+        }
+        .header .right-shape, .footer-header .right-shape {
+            position: absolute;
+            right: 0;
+            top: 20%;
+            width: 25%;
+            height: 60%;
+            background: #00a0e9;
+            clip-path: polygon(31% 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .header-content {
+            position: relative;
+            z-index: 1;
+            padding: 25px 0 0 40px;
+            color: white;
+        }
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            padding: 20px 0 0 40px;
+            color: white;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: normal;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header h1 .title-part, .footer-header h1 .title-part {
+            display: inline-block;
+        }
+        .header h1 .title-part:first-child {
+            font-size: 32px;
+        }
+        .header h1 .title-part:nth-child(2) {
+            color: #25aae1;
+        }
+        .footer-header .title-part {
+            font-size: 12px;
+            letter-spacing: 3px;
+        }
+        .footer-header .title-part:first-child {
+            color: #25aae1;
+            margin-right: 8px;
+        }
+       
+        .header .subtitle {
+            display: flex;
+            align-items: center;
+            font-size: 9px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding-left: 8px;
+            font-weight: 300;
+        }
+        .subtitle i {
+            background-color: #23a2d8;
+    display: inline-block;
+    width: 20px;
+    margin-right: 10px;
+    height: 2px;
+    vertical-align: middle;
+        }
+        .content {
+            box-shadow: #ccc 0 0 10px;
+            padding: 0 1px;
+        } 
+        .content-body {
+            padding: 0 20px;
         }
 
         .container {
@@ -42,28 +138,49 @@
             text-align: center;
             font-size: 20pt;
             margin: 0 0 3mm;
-            padding: 3mm 0;
-            border-bottom: 1.2pt solid #005a54;
             position: relative;
         }
 
         h2 {
             font-size: 16pt;
             margin: 4mm 0;
-            
-
-            text-align: center;
+            background: #1a2942;
+            color: white;
+            padding: 8px 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        h2::before {
+            content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 13px;
+    height: 100%;
+    background: #25aae1;
+        }
+        h2 .en-title {
+            font-family: 'MyCustomFont';
+            src: url('./en_title.otf') format('truetype');
+            color: #fff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: normal;
         }
 
         .base-block,
         .exam-block,
-        .guess-block,
-        .study-block {
-            padding: 4mm;
+        .guess-block {
             margin-bottom: 4mm;
-            background: #f8fff8;
-            border: 1px solid #e0e0e0;
-            border-radius: 10pt;
+        }
+        .content p {
+            font-size: 8pt;
+            color: #ccc;
+            margin-left: 8%;
         }
 
         .input-group {
@@ -74,15 +191,12 @@
 
         .base-block {
             display: grid;
-            grid-template-columns: 200pt 360pt;
+            grid-template-columns: 33.3% 103.7%;
             grid-template-rows: 28pt 28pt 28pt;
             grid-auto-flow: column;
         }
 
-        .base-block .input-group {
-            margin-left: 22pt;
-        }
-
+       
 
         .base-block label {
 
@@ -95,62 +209,49 @@
             margin-left: 5pt;
             width: 54%;
             padding: 1mm;
-            border: 1px solid #ccc;
+            border:none;
             font-size: 10.5pt;
-            background: white;
+            background: #d7e9f8;
             vertical-align: middle;
-            border-radius: 5pt;
         }
 
         .exam-block {
             display: grid;
-            grid-template-columns: repeat(3, 33%);
-            grid-auto-flow: row dense;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
         }
         .exam-block .input-group {
-            margin-left: 10pt;
+            display: flex;
         }
-
+        .exam-block label {
+            width: 70px;
+            font-size: 12pt;
+        }
         .exam-block input,
         .exam-block select {
-            margin-left: 5pt;
-            width: 60%;
-            padding: 1mm;
-            border: 1px solid #ccc;
+            flex: 1;
+            background: #d7e9f8;
+            border: none;
+            padding: 6px;
             font-size: 10.5pt;
-            background: white;
-            vertical-align: middle;
-            border-radius: 5pt;
         }
-
-        .exam-block .item1 {
-            grid-column-start: 1;
-            grid-column-end: 2;
-        }
-
-        .exam-block .item2 {
-            grid-column-start: 1;
-            grid-column-end: 2;
-        }
-
         .exam-block .item3 {
-            grid-column-start: 2;
-            grid-column-end: 3;
-            grid-row-start: 2;
-            grid-row-end: 4;
-            justify-self: start;
-            display: grid;
-            grid-template-rows: 10pt;
-            grid-template-columns: repeat(5, 40%);
+            gap: 10px;
+    margin-top: 10px;
+    grid-column-start: 2;
+    grid-column-end: 4;
+        }
+        .exam-block .item3 label {
+            width: auto;
+        }
+        .exam-block .item3 input {
+           
+            background: #d7e9f8;
+            border: none;
+            padding: 6px;
+            font-size: 10.5pt;
         }
 
-        .exam-block .item4 {
-            grid-column-start: 1;
-            grid-column-end: 6;
-            grid-row-start: 1;
-            grid-row-end: 2;
-
-        }
 
         .guess-block {
             display: flex;
@@ -170,8 +271,7 @@
          }
          .study-block input {
             margin-left: 10pt;
-            border-radius: 5pt;
-            width: 50%;
+            width: 55%;
          }
     
         .study-block .item3 {
@@ -182,19 +282,18 @@
         }         
  
         .study-block .item3 textarea {
-            margin-left: 15pt;
-            width: 50%;
-            height: 28pt;
-            resize: none;
-            border-radius: 5pt;
-            padding: 2pt 4pt;
-        }
+    margin-left: 15pt;
+    width: 71.5%;
+    height: 28pt;
+    resize: none;
+    padding: 2pt 4pt;
+}
 
         input, select, textarea {
             padding: 1mm;
-            border: 1px solid #ccc;
+            border:none;
             font-size: 10.5pt;
-            background: white;
+            background: #d7e9f8;
             vertical-align: middle;
         }
 
@@ -222,13 +321,13 @@
         }
 
         .star {
-            color: #ddd;
+            color: #d5cfc4;
             font-size: 12pt;
             cursor: pointer;
         }
 
         .star.active {
-            color: #005a54;
+            color: #abd0e3;
         }
 
         canvas {
@@ -247,13 +346,14 @@
             .guess-block,
             .study-block {
                 break-inside: avoid;
-                background: white;
+                background: #d7e9f8;
             }
 
             input,
             select,
             textarea {
-                border-color: #999;
+                background-color: #d7e9f8;
+                border:none;
             }
         }
 
@@ -268,13 +368,22 @@
             display: inline-block;
             width: auto;
         }
-
+        .study-block .item1 {
+        width: 100%;
+        }
+        .study-block .item2 {
+        width: 119%;
+        }
+        .study-block .item3 {
+        width: 108%;
+       
+        }
 
         .study-block .item1 input {
             margin-left: 15pt; /* 默认是10pt，现在加5pt */
         }
 
-        .exam-block input[type="number"] {
+        .exam-block input[type="number"],.exam-block input[type="text"] {
             width: 40%; /* 默认60%，现在缩小 */
         }
 
@@ -284,19 +393,17 @@
             width: 50%;
             height: 28pt;
             resize: none;
-            border-radius: 5pt;
             padding: 2pt 4pt;
         }
 
 
         .study-block .item3 textarea {
-            margin-left: 15pt;
-            width: 68%;
-            height: 28pt;
-            resize: none;
-            border-radius: 5pt;
-            padding: 2pt 4pt;
-        }
+    margin-left: 15pt;
+    width: 71.5%;
+    height: 28pt;
+    resize: none;
+    padding: 2pt 4pt;
+}
 
     
 @media screen and (max-width: 768px) {
@@ -321,6 +428,7 @@
         width: 100%;
         margin-left: 0;
         margin-bottom: 12px;
+        height: auto;
     }
 
     .base-block input,
@@ -359,231 +467,264 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+   <div class="content">
+    <div class="header">
+        <div class="left-shape"></div>
+        <div class="right-shape"></div>
+        <div class="header-content">
+            <h1><span class="title-part">首次课</span><span class="title-part">学情诊断报告</span></h1>
+            <div class="subtitle"><i></i>DIAGNOSIS REPORT ON LEARNING SITUATION</div>
+        </div>
+    </div>
 <button onclick="exportToImage('png')" style="position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 8px 16px; font-size: 12pt;">一键导出图片</button>
 
-<div class="container">
-<h1>首次课学情诊断报告</h1>
-<!-- 基本信息 -->
-<h2>⬩基本信息⬩</h2>
-<div class="base-block">
-    <div class="input-group">
-        <label>学生姓名</label>
-        <input required="" type="text"/>
+<div class="content-body">
+    <div class="container">
+
+        <!-- 基本信息 -->
+        <h2>基本信息 <span class="en-title">BASIC INFORMATION</span></h2>
+        <div class="base-block">
+            <div class="input-group">
+                <label>学生姓名</label>
+                <input required="" type="text"/>
+            </div>
+            <div class="input-group">
+                <label>授课教师</label>
+                <input required="" type="text"/>
+            </div>
+            <div class="input-group">
+                <label>授课日期</label>
+                <input required="" type="date"/>
+            </div>
+            <div class="input-group">
+                <label>授课内容</label>
+                <input placeholder="简明概括课程内容" type="text"/>
+            </div>
+            <div class="input-group">
+                <label>重点难点</label>
+                <input type="text"/>
+            </div>
+            <div class="input-group">
+                <label>课后练习</label>
+                <input type="text"/>
+            </div>
+        </div>
+        <!-- 考试信息 -->
+        <h2>考试信息 <span class="en-title">EXAM INFORMATION</span></h2>
+        <div class="exam-block">
+        <div class="input-group">
+            <label>体系</label>
+            <select required=""><option value="">请选择</option></select>
+        </div>
+        <div class="input-group item1">
+            <label>学科</label>
+            <select required=""><option value="">请选择</option></select>
+        </div>
+        <div class="input-group item2">
+            <label>试卷</label>
+            <select required=""><option value="">请选择</option></select>
+        </div>
+        <div class="input-group">
+            <label>考试时长</label>
+            <input placeholder="分钟" type="text"/>
+        </div>
+        <div class="input-group">
+            <label>考试时间</label>
+            <input required="" type="date"/>
+        </div>
+        <div class="input-group">
+            <label>考试总分</label>
+            <input type="number"/>
+        </div>
+        <div class="input-group">
+            <label>目标等级</label>
+            <input type="number"/>
+        </div>
+
+        <div class="input-group item3">
+            <label class="item4">最新分数线标准</label>
+            <input class="mini-input" placeholder="A*" type="text"/>
+            <input class="mini-input" placeholder="A" type="text"/>
+            <input class="mini-input" placeholder="B" type="text"/>
+            <input class="mini-input" placeholder="C" type="text"/>
+            <input class="mini-input" placeholder="D" type="text">
+            </input>
+        </div>
     </div>
-    <div class="input-group">
-        <label>授课教师</label>
-        <input required="" type="text"/>
+        <!-- 能力评估 -->
+        <h2>能力评估<span class="en-title">CAPABILITY ASSESSMENT</span></h2>
+        <div class="guess-block">
+        <div class="left">
+        <div class="ability-item">
+        <label>
+                                学科基础
+                            </label>
+        <div class="star-rating" data-target="subject-base">
+        <span class="star" data-value="1">
+                                    ★
+                                </span>
+        <span class="star" data-value="2">
+                                    ★
+                                </span>
+        <span class="star" data-value="3">
+                                    ★
+                                </span>
+        <span class="star" data-value="4">
+                                    ★
+                                </span>
+        <span class="star" data-value="5">
+                                    ★
+                                </span>
+        </div>
+        </div>
+        <div class="ability-item">
+        <label>
+        英文水平
+                            </label>
+        <div class="star-rating" data-target="english">
+        <span class="star" data-value="1">
+                                    ★
+                                </span>
+        <span class="star" data-value="2">
+                                    ★
+                                </span>
+        <span class="star" data-value="3">
+                                    ★
+                                </span>
+        <span class="star" data-value="4">
+                                    ★
+                                </span>
+        <span class="star" data-value="5">
+                                    ★
+                                </span>
+        </div>
+        </div>
+        <div class="ability-item">
+        <label>
+                                计算准确
+                            </label>
+        <div class="star-rating" data-target="calculation">
+        <span class="star" data-value="1">
+                                    ★
+                                </span>
+        <span class="star" data-value="2">
+                                    ★
+                                </span>
+        <span class="star" data-value="3">
+                                    ★
+                                </span>
+        <span class="star" data-value="4">
+                                    ★
+                                </span>
+        <span class="star" data-value="5">
+                                    ★
+                                </span>
+        </div>
+        </div>
+        <div class="ability-item">
+        <label>
+                                灵活运用
+                            </label>
+        <div class="star-rating" data-target="flexibility">
+        <span class="star" data-value="1">
+                                    ★
+                                </span>
+        <span class="star" data-value="2">
+                                    ★
+                                </span>
+        <span class="star" data-value="3">
+                                    ★
+                                </span>
+        <span class="star" data-value="4">
+                                    ★
+                                </span>
+        <span class="star" data-value="5">
+                                    ★
+                                </span>
+        </div>
+        </div>
+        <div class="ability-item">
+        <label>
+                                逻辑思维
+                            </label>
+        <div class="star-rating" data-target="logic">
+        <span class="star" data-value="1">
+                                    ★
+                                </span>
+        <span class="star" data-value="2">
+                                    ★
+                                </span>
+        <span class="star" data-value="3">
+                                    ★
+                                </span>
+        <span class="star" data-value="4">
+                                    ★
+                                </span>
+        <span class="star" data-value="5">
+                                    ★
+                                </span>
+        </div>
+        </div>
+        <div class="ability-item">
+        <label>
+                                书面表述
+                            </label>
+        <div class="star-rating" data-target="writing">
+        <span class="star" data-value="1">
+                                    ★
+                                </span>
+        <span class="star" data-value="2">
+                                    ★
+                                </span>
+        <span class="star" data-value="3">
+                                    ★
+                                </span>
+        <span class="star" data-value="4">
+                                    ★
+                                </span>
+        <span class="star" data-value="5">
+                                    ★
+                                </span>
+        </div>
+        </div>
+        </div>
+        <div class="right">
+        <canvas height="300" id="abilityChart" style="margin-top: 10px;" width="300">
+        </canvas>
+        </div>
+        </div>
+       
+        </div>
+        <!-- 学习建议 -->
+        <h2>学习建议<span class="en-title">LEARNING ADVICE</span></h2>
+        <div class="study-block">
+        <div class="input-group item1">
+        <label>课堂小测准确率</label>
+        <input max="100" min="0" placeholder="输入百分比" type="number">
+        </input></div>
+        <div class="input-group item2">
+        <label>薄弱知识点</label>
+        <input type="text">
+        </input></div>
+        <div class="input-group item3">
+        <label>学习及备考建议</label>
+        <textarea rows="3"></textarea>
+        </div>
+       
+        </div>
+        <p>能力评估板块仅为授课教师针对首次课课堂表现给出的评价，可能存在主观性，仅作为后续课程和学习规划参考使用</p>
+        
+</div>
+<footer>
+    <div class="footer-header">
+        <div class="left-shape"></div>
+        <div class="right-shape"></div>
+        <div class="footer-content">
+            <span class="title-part">DIAGNOSIS REPORT</span><span class="title-part">ON LEARNING SITUATION</span>
+        </div>
     </div>
-    <div class="input-group">
-        <label>授课日期</label>
-        <input required="" type="date"/>
-    </div>
-    <div class="input-group">
-        <label>授课内容</label>
-        <input placeholder="简明概括课程内容" type="text"/>
-    </div>
-    <div class="input-group">
-        <label>重点难点</label>
-        <input type="text"/>
-    </div>
-    <div class="input-group">
-        <label>课后练习</label>
-        <input type="text"/>
-    </div>
-</div>
-<!-- 考试信息 -->
-<h2>⬩考试信息⬩</h2>
-<div class="exam-block">
-    <div class="input-group">
-        <label>体系</label>
-        <select required=""><option value="">请选择</option></select>
-    </div>
-    <div class="input-group">
-        <label>考试时长</label>
-        <input placeholder="分钟" type="text"/>
-    </div>
-    <div class="input-group">
-        <label>考试总分</label>
-        <input type="number"/>
-    </div>
-    <div class="input-group item1">
-        <label>学科</label>
-        <select required=""><option value="">请选择</option></select>
-    </div>
-    <div class="input-group item2">
-        <label>试卷</label>
-        <select required=""><option value="">请选择</option></select>
-    </div>
-    <div class="input-group item3">
-        <label class="item4">最新分数线标准</label>
-        <input class="mini-input" placeholder="A*" type="text"/>
-        <input class="mini-input" placeholder="A" type="text"/>
-        <input class="mini-input" placeholder="B" type="text"/>
-        <input class="mini-input" placeholder="C" type="text"/>
-        <input class="mini-input" placeholder="D" type="text">
-        </input>
-    </div>
-</div>
-<!-- 能力评估 -->
-<h2>⬩能力评估⬩</h2>
-<div class="guess-block">
-<div class="left">
-<div class="ability-item">
-<label>
-                        学科基础
-                    </label>
-<div class="star-rating" data-target="subject-base">
-<span class="star" data-value="1">
-                            ★
-                        </span>
-<span class="star" data-value="2">
-                            ★
-                        </span>
-<span class="star" data-value="3">
-                            ★
-                        </span>
-<span class="star" data-value="4">
-                            ★
-                        </span>
-<span class="star" data-value="5">
-                            ★
-                        </span>
-</div>
-</div>
-<div class="ability-item">
-<label>
-英文水平
-                    </label>
-<div class="star-rating" data-target="english">
-<span class="star" data-value="1">
-                            ★
-                        </span>
-<span class="star" data-value="2">
-                            ★
-                        </span>
-<span class="star" data-value="3">
-                            ★
-                        </span>
-<span class="star" data-value="4">
-                            ★
-                        </span>
-<span class="star" data-value="5">
-                            ★
-                        </span>
-</div>
-</div>
-<div class="ability-item">
-<label>
-                        计算准确
-                    </label>
-<div class="star-rating" data-target="calculation">
-<span class="star" data-value="1">
-                            ★
-                        </span>
-<span class="star" data-value="2">
-                            ★
-                        </span>
-<span class="star" data-value="3">
-                            ★
-                        </span>
-<span class="star" data-value="4">
-                            ★
-                        </span>
-<span class="star" data-value="5">
-                            ★
-                        </span>
-</div>
-</div>
-<div class="ability-item">
-<label>
-                        灵活运用
-                    </label>
-<div class="star-rating" data-target="flexibility">
-<span class="star" data-value="1">
-                            ★
-                        </span>
-<span class="star" data-value="2">
-                            ★
-                        </span>
-<span class="star" data-value="3">
-                            ★
-                        </span>
-<span class="star" data-value="4">
-                            ★
-                        </span>
-<span class="star" data-value="5">
-                            ★
-                        </span>
-</div>
-</div>
-<div class="ability-item">
-<label>
-                        逻辑思维
-                    </label>
-<div class="star-rating" data-target="logic">
-<span class="star" data-value="1">
-                            ★
-                        </span>
-<span class="star" data-value="2">
-                            ★
-                        </span>
-<span class="star" data-value="3">
-                            ★
-                        </span>
-<span class="star" data-value="4">
-                            ★
-                        </span>
-<span class="star" data-value="5">
-                            ★
-                        </span>
-</div>
-</div>
-<div class="ability-item">
-<label>
-                        书面表述
-                    </label>
-<div class="star-rating" data-target="writing">
-<span class="star" data-value="1">
-                            ★
-                        </span>
-<span class="star" data-value="2">
-                            ★
-                        </span>
-<span class="star" data-value="3">
-                            ★
-                        </span>
-<span class="star" data-value="4">
-                            ★
-                        </span>
-<span class="star" data-value="5">
-                            ★
-                        </span>
-</div>
-</div>
-</div>
-<div class="right">
-<canvas height="300" id="abilityChart" style="margin-top: 10px;" width="300">
-</canvas>
-</div>
-</div>
-<p>能力评估板块仅为授课教师针对首次课课堂表现给出的评价，可能存在主观性，仅作为后续课程和学习规划参考使用</p>
-</div>
-<!-- 学习建议 -->
-<h2>⬩学习建议⬩</h2>
-<div class="study-block">
-<div class="input-group item1">
-<label>课堂小测准确率</label>
-<input max="100" min="0" placeholder="输入百分比" type="number">
-</input></div>
-<div class="input-group item2">
-<label>薄弱知识点</label>
-<input type="text">
-</input></div>
-<div class="input-group item3">
-<label>学习及备考建议</label>
-<textarea rows="3"></textarea>
-</div>
-</div>
+</footer>
+   </div>
 <script>
         // 星级评分功能
         document.querySelectorAll('.star-rating').forEach(container => {
@@ -641,11 +782,11 @@
                             data: ratings,
                             fill: true,
                             backgroundColor: 'rgba(0, 90, 84, 0.2)',
-                            borderColor: '#005a54',
-                            pointBackgroundColor: '#005a54',
+                            borderColor: '#abd0e3',
+                            pointBackgroundColor: '#abd0e3',
                             pointBorderColor: '#fff',
                             pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: '#005a54'
+                            pointHoverBorderColor: '#abd0e3'
                         }]
                     },
                     options: {
