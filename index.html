@@ -11,6 +11,13 @@
         }
 
         @font-face {
+            font-family: 'MyEnglishFont';
+            src: url('./en_title.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
             font-family: 'MyCustomFont';
             src: url('./title.ttc') format('truetype');
             font-weight: normal;
@@ -33,7 +40,7 @@
             width: 100%;
             background: #d7e9f8;
             overflow: hidden;
-            height: 120px;
+            height: 150px;
         }
         .footer-header {
             position: relative;
@@ -44,27 +51,35 @@
         }
         .header .left-shape, .footer-header .left-shape {
             position: absolute;
-            left: 0;
+            left: -30px;
             top: 20%;
             width: 75%;
             height: 60%;
             background: #1a2942;
-            clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+      transform: skewX(-20deg);
+        transform-origin: right;
+        z-index: 1;
         }
         .header .right-shape, .footer-header .right-shape {
             position: absolute;
-            right: 0;
+            right: -20px;
             top: 20%;
             width: 25%;
             height: 60%;
             background: #00a0e9;
-            clip-path: polygon(31% 0, 100% 0, 100% 100%, 0 100%);
+            transform: skewX(-20deg);
+            transform-origin: right;
+            z-index: 1;
         }
         .header-content {
             position: relative;
             z-index: 1;
-            padding: 25px 0 0 40px;
             color: white;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 40px;
         }
         .footer-content {
             position: relative;
@@ -74,7 +89,7 @@
         }
         .header h1 {
             margin: 0;
-            font-size: 32px;
+            font-size: 38px;
             font-weight: normal;
             letter-spacing: 1px;
             display: flex;
@@ -85,7 +100,7 @@
             display: inline-block;
         }
         .header h1 .title-part:first-child {
-            font-size: 32px;
+            font-size: 38px;
         }
         .header h1 .title-part:nth-child(2) {
             color: #25aae1;
@@ -122,7 +137,7 @@
             padding: 0 1px;
         } 
         .content-body {
-            padding: 0 20px;
+            padding: 0 48px;
         }
 
         .container {
@@ -163,8 +178,7 @@
     background: #25aae1;
         }
         h2 .en-title {
-            font-family: 'MyCustomFont';
-            src: url('./en_title.otf') format('truetype');
+            font-family: 'MyEnglishFont';
             color: #fff;
             font-size: 14px;
             text-transform: uppercase;
@@ -330,6 +344,10 @@
             color: #abd0e3;
         }
 
+        .guess-block .right {
+            margin-left: -50px;
+        }
+
         canvas {
             max-width: 100%;
             height: auto;
@@ -369,10 +387,10 @@
             width: auto;
         }
         .study-block .item1 {
-        width: 100%;
+        width: 90%;
         }
         .study-block .item2 {
-        width: 119%;
+        width: 115%;
         }
         .study-block .item3 {
         width: 108%;
@@ -399,7 +417,7 @@
 
         .study-block .item3 textarea {
     margin-left: 15pt;
-    width: 71.5%;
+    width: 70%;
     height: 28pt;
     resize: none;
     padding: 2pt 4pt;
@@ -513,15 +531,15 @@
         <h2>考试信息 <span class="en-title">EXAM INFORMATION</span></h2>
         <div class="exam-block">
         <div class="input-group">
-            <label>体系</label>
+            <label>考试体系</label>
             <select required=""><option value="">请选择</option></select>
         </div>
         <div class="input-group item1">
-            <label>学科</label>
+            <label>考试学科</label>
             <select required=""><option value="">请选择</option></select>
         </div>
         <div class="input-group item2">
-            <label>试卷</label>
+            <label>具体试卷</label>
             <select required=""><option value="">请选择</option></select>
         </div>
         <div class="input-group">
@@ -781,9 +799,9 @@
                             label: '',
                             data: ratings,
                             fill: true,
-                            backgroundColor: 'rgba(0, 90, 84, 0.2)',
+                            backgroundColor: 'rgba(20, 28, 63, 0.85)',
                             borderColor: '#abd0e3',
-                            pointBackgroundColor: '#abd0e3',
+                            pointBackgroundColor: '#6699ff',
                             pointBorderColor: '#fff',
                             pointHoverBackgroundColor: '#fff',
                             pointHoverBorderColor: '#abd0e3'
